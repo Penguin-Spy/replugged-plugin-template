@@ -1,0 +1,17 @@
+{
+  "name": "replugged-plugin-template",
+  "version": "1.0.0",
+  "description": "An unofficial replugged plugin template",
+  "author": "",
+  "scripts": {
+    "bundle": "node scripts/bundle.js",
+    "serve": "node scripts/serve.js"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@electron/asar": "^3.2.1"
+  }
+}
