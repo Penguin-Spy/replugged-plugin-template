@@ -5,7 +5,8 @@
   "author": "",
   "scripts": {
     "bundle": "node scripts/bundle.js",
-    "serve": "node scripts/serve.js"
+    "update": "node scripts/update.js",
+    "watch": "node scripts/update.js --watch"
   },
   "keywords": [],
   "license": "MIT",
