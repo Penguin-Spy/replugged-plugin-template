@@ -21,6 +21,7 @@ this was created for personal use because:
 1. [Create a copy of this template](https://github.com/penguin-spy/replugged-plugin-template/generate)
 2. Clone your new repository and cd into it
 3. Install dependencies: `pnpm i`
+4. Edit the `manifest.json` and change at least the `"id"` to be something different.
 4. Install the plugin into Replugged: `pnpm run update`
 5. Reload Discord to load the plugin
 
