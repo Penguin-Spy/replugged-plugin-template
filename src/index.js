@@ -1,19 +1,19 @@
-const { Injector, webpack, notices, commands, settings, quickCSS, themes, ignition, plugins } = replugged;
+var { Injector, webpack, common, Logger, notices, commands, settings, quickCSS, themes, plugins, util } = replugged;
+const inject = new Injector();
+const logger = new Logger("Plugin", "dev.username.PluginTemplate");
 
-export async function start(ctx) {
-  const inject = ctx.injector;
-
+export async function start() {
   const typingMod = await webpack.waitForModule(webpack.filters.byProps("startTyping"));
   const getChannelMod = await webpack.waitForModule(webpack.filters.byProps("getChannel"));
 
   if(typingMod && getChannelMod) {
     inject.instead(typingMod, "startTyping", ([channel]) => {
       const channelObj = getChannelMod.getChannel(channel);
-      console.log(`Typing prevented! Channel: #${channelObj?.name ?? "unknown"} (${channel}).`);
+      logger.log(`Typing prevented! Channel: #${channelObj?.name ?? "unknown"} (${channel}).`);
     });
   }
 }
 
-export function stop(ctx) {
-  ctx.injector.uninjectAll();
+export function stop() {
+  inject.uninjectAll();
 }
