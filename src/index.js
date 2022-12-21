@@ -1,4 +1,4 @@
-var { Injector, webpack, common, Logger, notices, commands, settings, quickCSS, themes, plugins, util } = replugged;
+var { Injector, webpack, Logger } = replugged;
 const inject = new Injector();
 const logger = new Logger("Plugin", "dev.username.PluginTemplate");
 
