@@ -35,7 +35,7 @@ if(process.argv.includes("--watch")) {
     let currentTimeout = false;
     console.log("Watching for file changes, press Ctrl+C to exit.");
 
-    const watcher = watch("src");
+    const watcher = watch("src", { recursive: true });
     for await(const event of watcher) {
       console.log(`[${event.eventType}]: ${event.filename}`);
 
