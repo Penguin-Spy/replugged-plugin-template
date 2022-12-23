@@ -1,22 +1,10 @@
 import asar from "@electron/asar";
-import { readFileSync, readdirSync, statSync } from "fs";
-
-function getAllFiles(dirPath) {
-  const files = []
-  readdirSync(dirPath).forEach(file => {
-    const path = `${dirPath}/${file}`
-    if(statSync(path).isDirectory()) {
-      files.push(...getAllFiles(path))
-    } else {
-      files.push(path)
-    }
-  })
-  return files
-}
+import { readFileSync, writeFileSync } from "fs";
+import { transpile } from "./parse.js"
 
 const manifest = JSON.parse(readFileSync("manifest.json", "utf-8"));
-const filenames = ['manifest.json', ...getAllFiles("src")]
+writeFileSync("dist/renderer.js", transpile(manifest.renderer))
+manifest.renderer = "renderer.js"
+writeFileSync("dist/manifest.json", JSON.stringify(manifest))
 
-console.log(filenames)
-
-asar.createPackageFromFiles("./", `${manifest.id}.asar`, filenames);
+asar.createPackage("dist", `${manifest.id}.asar`);
