@@ -4,7 +4,7 @@
   "description": "An unofficial replugged plugin template",
   "author": "",
   "scripts": {
-    "bundle": "node scripts/bundle.js",
+    "bundle": "node scripts/update.js --no-install && node scripts/bundle.js",
     "update": "node scripts/update.js",
     "watch": "node scripts/update.js --watch"
   },

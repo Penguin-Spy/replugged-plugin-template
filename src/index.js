@@ -1,6 +1,6 @@
 import { Injector, webpack, Logger } from "replugged";
 import { React, flux as Flux, fluxDispatcher as FluxDispatcher } from "replugged/common";
-import test from "./test.js"
+import woah from "./woah/woah"
 
 const inject = new Injector();
 const logger = new Logger("Plugin", "dev.username.PluginTemplate");
