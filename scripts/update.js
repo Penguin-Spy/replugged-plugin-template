@@ -1,6 +1,7 @@
 import { watch } from 'fs/promises';
-import { readFileSync, existsSync, rmSync, copyFileSync, cpSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync, cpSync } from 'fs';
 import { join } from "path";
+import transpile from "./transpile.js"
 
 const manifest = JSON.parse(readFileSync("manifest.json", "utf-8"));
 
@@ -20,15 +21,43 @@ const CONFIG_PATH = (() => {
   }
 })();
 
+
+function transpileAll() {
+  if(!existsSync("dist")) mkdirSync("dist")
+
+  const distManifest = JSON.parse(JSON.stringify(manifest))
+
+  if(manifest.renderer) {
+    const [scriptOutput, styleOutput] = transpile(manifest.renderer)
+    writeFileSync("dist/renderer.js", scriptOutput)
+    if(styleOutput !== "") writeFileSync("dist/renderer.css", styleOutput)
+    distManifest.renderer = "renderer.js"
+  }
+  if(manifest.preload) {
+    writeFileSync("dist/preload.js", transpile(manifest.preload)[0])
+    distManifest.renderer = "preload.js"
+  }
+  if(manifest.main) {
+    writeFileSync("dist/main.js", transpile(manifest.main)[0])
+    distManifest.renderer = "main.js"
+  }
+  if(manifest.plaintextPatches) {
+    writeFileSync("dist/plaintextPatches.js", transpile(manifest.plaintextPatches)[0])
+    distManifest.renderer = "plaintextPatches.js"
+  }
+
+  writeFileSync("dist/manifest.json", JSON.stringify(distManifest))
+}
+
 function install() {
   const dest = join(CONFIG_PATH, "plugins", manifest.id);
   if(existsSync(dest)) {
     rmSync(dest, { recursive: true });
   }
-  cpSync("src", join(dest, "src"), { recursive: true });
-  copyFileSync("manifest.json", join(dest, "manifest.json"))
+  cpSync("dist", dest, { recursive: true });
   console.log("Plugin installed");
 }
+
 
 if(process.argv.includes("--watch")) {
   (async () => {
@@ -42,6 +71,7 @@ if(process.argv.includes("--watch")) {
       // only copy files every 500ms, this avoids issues with double-saving or other quick modifications
       if(currentTimeout !== false) clearTimeout(currentTimeout);
       currentTimeout = setTimeout(() => {
+        transpileAll()
         install()
         currentTimeout = false
       }, 500);
@@ -49,4 +79,8 @@ if(process.argv.includes("--watch")) {
   })();
 }
 
-install();
+transpileAll();
+if(!process.argv.includes("--no-install")) {
+  install();
+}
+

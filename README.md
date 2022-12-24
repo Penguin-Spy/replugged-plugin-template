@@ -30,7 +30,7 @@ The unmodified plugin will log "Typing prevented" in the console when you start 
 ## Development
 Official Replugged API docs: https://docs.replugged.dev/modules.html (have fun)  
 
-`pnpm run update` will copy the `manifest.json` and `src/` into the [Replugged plugins folder](https://github.com/replugged-org/replugged#installing-plugins-and-themes).  
+`pnpm run update` will copy the plugin into the [Replugged plugins folder](https://github.com/replugged-org/replugged#installing-plugins-and-themes).  
 `pnpm run watch` will do this automatically whenever a file changes (you still have to reload Discord)
 
 ## Distribution

@@ -1,4 +1,8 @@
-const { Injector, webpack, Logger } = replugged;
+import { Injector, webpack, Logger } from "replugged";
+// import { React, flux as Flux, fluxDispatcher as FluxDispatcher } from "replugged/common";
+// import thing from "./stuff.js"
+import "./style.css"
+
 const inject = new Injector();
 const logger = new Logger("Plugin", "dev.username.PluginTemplate");
 
