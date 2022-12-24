@@ -60,7 +60,10 @@ function parseAndModifyImports(file) {
 
     // "import "
     try { input = consumeLiteral(input, /^\s*import\s*/) }
-    catch(e) { break }
+    catch(e) {
+      try { input = consumeLiteral(input, /^\s*\/\/.*\n/); continue }
+      catch(e) { break }
+    }
 
     // '{' '"' or identifier
     if((match = input.match(/^["']/)) === null) { // if it's already the source (for css imports), skip this part
@@ -199,23 +202,17 @@ export default function transpile(filename) {
   parseAndModifyImports(mainFile)
   mainFile.requiredFiles.forEach(recursivelyImport)
 
-  console.log(`"${mainFile.name}" (${mainFile.type}): [ '${mainFile.requiredFiles.join("', ")}' ]`)
-  Object.values(allRequiredFiles).forEach(file => {
-    console.log(`"${file.name}" (${file.type}): [ '${file.requiredFiles.join("', ")}' ]`)
-  })
-
   let scriptOutput = ""
   let styleOutput = ""
   let nextFile = nextImportableFile()
   while(nextFile) {
-    console.log(nextFile.type)
     switch(nextFile.type) {
       case "script":
         wrapFile(nextFile)
-        scriptOutput += `// ${nextFile.name}\n` + nextFile.output
+        scriptOutput += `// ${nextFile.name}\n` + nextFile.output + "\n"
         break;
       case "style":
-        styleOutput += `/* ${nextFile.name} */\n` + nextFile.input
+        styleOutput += `/* ${nextFile.name} */\n` + nextFile.input + "\n"
         break;
     }
     nextFile = nextImportableFile()

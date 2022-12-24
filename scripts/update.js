@@ -25,26 +25,28 @@ const CONFIG_PATH = (() => {
 function transpileAll() {
   if(!existsSync("dist")) mkdirSync("dist")
 
+  const distManifest = JSON.parse(JSON.stringify(manifest))
+
   if(manifest.renderer) {
     const [scriptOutput, styleOutput] = transpile(manifest.renderer)
     writeFileSync("dist/renderer.js", scriptOutput)
     if(styleOutput !== "") writeFileSync("dist/renderer.css", styleOutput)
-    manifest.renderer = "renderer.js"
+    distManifest.renderer = "renderer.js"
   }
   if(manifest.preload) {
     writeFileSync("dist/preload.js", transpile(manifest.preload)[0])
-    manifest.renderer = "preload.js"
+    distManifest.renderer = "preload.js"
   }
   if(manifest.main) {
     writeFileSync("dist/main.js", transpile(manifest.main)[0])
-    manifest.renderer = "main.js"
+    distManifest.renderer = "main.js"
   }
   if(manifest.plaintextPatches) {
     writeFileSync("dist/plaintextPatches.js", transpile(manifest.plaintextPatches)[0])
-    manifest.renderer = "plaintextPatches.js"
+    distManifest.renderer = "plaintextPatches.js"
   }
 
-  writeFileSync("dist/manifest.json", JSON.stringify(manifest))
+  writeFileSync("dist/manifest.json", JSON.stringify(distManifest))
 }
 
 function install() {
