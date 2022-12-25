@@ -138,7 +138,7 @@ function modifyExports(file) {
 
     } else if(input.startsWith("{")) {
       // read all of { ... };, remove it from input
-      const [fullMatch, identifiers] = input.match(/^{(.*)}/)
+      const [fullMatch, identifiers] = input.match(/^{(.*)}/s)
       input = input.substring(fullMatch.length)
 
       // convert "x as y" to "y: x" & push into exportList
