@@ -91,7 +91,8 @@ function parseAndModifyImports(file) {
         import_source = module.replace("/", ".")
 
       } else if(module.startsWith("./") || module.startsWith("../")) {
-        const absoluePath = join(currentPath, module)
+        let absoluePath = join(currentPath, module)
+        if(extname(absoluePath) === "") absoluePath += ".js"
 
         import_source = FILENAME_KEY(absoluePath)
         file.requiredFiles.push(absoluePath) // mark that this file requires this import
