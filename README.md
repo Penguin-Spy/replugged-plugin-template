@@ -5,11 +5,12 @@ you should [use the real one instead](https://github.com/replugged-org/plugin-te
 
 This is an unofficial template for [replugged](https://github.com/replugged-org/replugged) plugins,
 **without** Typescript support or linting!  
-it still supports bundling the plugin into an `.asar` and installing it into Replugged automatically when files change.
+it still supports bundling the plugin into an `.asar` and installing it into Replugged automatically when files change.  
+It also supports JSX, albeit with some slightly more specific syntax (tags must be enclosed in parenthesis that come after "return" or "=", and you have to be careful with curly braces inside inline-javascript) 
 
 this was created for personal use because:
 - i hate the computer telling me what code i can and can't write
-- trying to type a Discord mod is fundamentally flawed and annoying
+- trying to type a Discord mod is somewhat annoying
 - idk it sounded kinda fun
 
 ## Prerequisites
@@ -44,6 +45,6 @@ git tag v1.0.0
 git push --tags
 ```
 
-The Replugged updater (coming soon™) will automatically check for updates on the repository specified
+The Replugged updater will automatically check for updates on the repository specified
 in the manifest. Make sure to update it to point to the correct repository!
 
